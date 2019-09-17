@@ -212,6 +212,26 @@ test_expect_success 'Recursive with -r -f' '
 	test_path_is_missing frotz
 '
 
+test_expect_success 'Recursive with -R' '
+	mkdir -p frotz &&
+	touch frotz/R &&
+	git add frotz &&
+	git commit -m R &&
+	git rm -R frotz &&
+	test_path_is_missing frotz/R &&
+	test_path_is_missing frotz
+'
+
+test_expect_success 'Recursive with --recursive' '
+	mkdir -p frotz &&
+	touch frotz/recursive &&
+	git add frotz &&
+	git commit -m recursive &&
+	git rm --recursive frotz &&
+	test_path_is_missing frotz/recursive &&
+	test_path_is_missing frotz
+'
+
 test_expect_success 'Remove nonexistent file returns nonzero exit status' '
 	test_must_fail git rm nonexistent
 '
